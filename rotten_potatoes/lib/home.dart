@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'model/movie.dart';
 
 class MovieListView extends StatelessWidget {
@@ -23,16 +22,20 @@ class MovieListView extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(13.6),
-                          image: DecorationImage(image: )
+                          image: DecorationImage(
+                              image: NetworkImage(movieList[index].images[0]),
+                              fit: BoxFit.cover
+                              ),
                         ),
                       ),
+                      
                     ),
                     trailing: Text(
                       '...',
                       style: TextStyle(color: Colors.white),
                     ),
                     title: Text(
-                      movies[index],
+                      movieList[index].title,
                       style: TextStyle(color: Colors.white),
                     ),
                     subtitle: Text(
@@ -46,7 +49,7 @@ class MovieListView extends StatelessWidget {
                                   builder: (context) => movieListViewDetails(
                                         movieName:
                                             movieList.elementAt(index).title,
-                                            movie: movieList[index],
+                                        movie: movieList[index],
                                       )))
                         }));
           }),
