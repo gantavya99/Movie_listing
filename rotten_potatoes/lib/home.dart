@@ -63,15 +63,18 @@ Widget movieCard(Movie movie, BuildContext context) {
     height: 100,
     child: Card(
       color: Colors.black87,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Text(
-            movie.title,
-            style: TextStyle(color: Colors.white),
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(top: ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Text(
+              movie.title,
+              style: TextStyle(color: Colors.white),
+            )
+          ],
+        ),
       ),
     ),
   ));
