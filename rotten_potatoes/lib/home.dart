@@ -14,7 +14,11 @@ class MovieListView extends StatelessWidget {
       body: ListView.builder(
           itemCount: movieList.length,
           itemBuilder: (BuildContext context, int index) {
-            return movieCard(movieList[index], context);
+            return Stack(children: <Widget>[
+              movieCard(movieList[index], context),
+              Positioned(
+                  top: 10.0, child: movieImage(movieList[index].images[0])),
+            ]);
             // return Card(
             //     elevation: 4.5,
             //     color: Colors.black87,
@@ -49,8 +53,11 @@ class MovieListView extends StatelessWidget {
             //                             movieName:
             //                                 movieList.elementAt(index).title,
             //                             movie: movieList[index],
-            //                           )))
-            //             }));
+            //                           )
+            // ))
+            //             }
+            // )
+            // );
           }),
     );
   }
@@ -58,26 +65,72 @@ class MovieListView extends StatelessWidget {
 
 Widget movieCard(Movie movie, BuildContext context) {
   return InkWell(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  movieListViewDetails(movieName: movie.title, movie: movie))),
       child: Container(
-    width: MediaQuery.of(context).size.width,
-    height: 100,
-    child: Card(
-      color: Colors.black87,
-      child: Padding(
-        padding: const EdgeInsets.only(top: ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text(
-              movie.title,
-              style: TextStyle(color: Colors.white),
-            )
-          ],
+        margin: EdgeInsets.only(left: 60),
+        width: MediaQuery.of(context).size.width,
+        height: 120,
+        child: Card(
+          color: Colors.black87,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: 8.0, bottom: 8, left: 54.0, right: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      movie.title,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      "Rating : ${movie.imdbRating}/10",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Released : ${movie.released}",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text("${movie.runtime}",
+                          style: TextStyle(color: Colors.white)),
+                      Text(
+                        "${movie.rated}",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
-      ),
+      ));
+}
+
+Widget movieImage(String imageUrl) {
+  return Container(
+    width: 100,
+    height: 100,
+    // ignore: prefer_const_constructors
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      image: DecorationImage(image: NetworkImage(imageUrl), fit: BoxFit.cover),
     ),
-  ));
+  );
 }
 
 class movieListViewDetails extends StatelessWidget {

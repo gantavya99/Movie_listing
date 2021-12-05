@@ -348,7 +348,6 @@ class Movie {
     ]),
 
   Movie(
-     "true",
     "Doctor Strange",
      "2016",
      "N/A",
@@ -364,6 +363,7 @@ class Movie {
      "N/A",
      "http://ia.media-imdb.com/images/M/MV5BNjgwNzAzNjk1Nl5BMl5BanBnXkFtZTgwMzQ2NjI1OTE@._V1_SX300.jpg",
      "N/A",
+     "8.2",
      "N/A",
      "tt1211837",
      "movie",
@@ -375,7 +375,6 @@ class Movie {
     ]),
   
   Movie(
-    "true",
      "Rogue One: A Star Wars Story",
      "2016",
      "N/A",
@@ -391,6 +390,7 @@ class Movie {
      "1 nomination.",
      "https://images-na.ssl-images-amazon.com/images/M/MV5BMjQyMzI2OTA3OF5BMl5BanBnXkFtZTgwNDg5NjQ0OTE@._V1_SY1000_CR0,0,674,1000_AL_.jpg",
      "N/A",
+     "7.6",
      "N/A",
      "tt3748528",
      "movie",
@@ -403,7 +403,7 @@ class Movie {
       "https://images-na.ssl-images-amazon.com/images/M/MV5BMjE3NTgxMDcyNV5BMl5BanBnXkFtZTgwMDExMTc1ODE@._V1_SX1777_CR0,0,1777,744_AL_.jpg"
     ]
   ),
-    Movie( "true",
+    Movie(
     "Assassin's Creed",
     "2016",
     "N/A",
@@ -419,6 +419,7 @@ class Movie {
     "N/A",
     "http://ia.media-imdb.com/images/M/MV5BMTU2MTQwMjU1OF5BMl5BanBnXkFtZTgwMDA5NjU5ODE@._V1_SX300.jpg",
      "N/A",
+     "8.5",
      "N/A",
     "tt2094766",
      "movie",
@@ -431,7 +432,6 @@ class Movie {
     ]
     ),
   Movie(
-     "true",
     "Luke Cage",
      "2016–",
      "TV-MA",
@@ -447,7 +447,7 @@ class Movie {
      "N/A",
      "http://ia.media-imdb.com/images/M/MV5BMTcyMzc1MjI5MF5BMl5BanBnXkFtZTgwMzE4ODY2OTE@._V1_SX300.jpg",
      "N/A",
-     
+     "7.2",
      "N/A",
    "tt3322314",
    "series",
