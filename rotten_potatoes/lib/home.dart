@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'model/movie.dart';
 
@@ -86,13 +88,18 @@ Widget movieCard(Movie movie, BuildContext context) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    Flexible(
+                        child: Text(
                       movie.title,
-                      style: TextStyle(color: Colors.white),
-                    ),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.0,
+                      ),
+                    )),
                     Text(
                       "Rating : ${movie.imdbRating}/10",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
                     ),
                   ],
                 ),
@@ -103,13 +110,14 @@ Widget movieCard(Movie movie, BuildContext context) {
                     children: [
                       Text(
                         "Released : ${movie.released}",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 15.0),
                       ),
                       Text("${movie.runtime}",
-                          style: TextStyle(color: Colors.white)),
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 15.0)),
                       Text(
                         "${movie.rated}",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 15.0),
                       ),
                     ],
                   ),
@@ -133,6 +141,111 @@ Widget movieImage(String imageUrl) {
   );
 }
 
+class MovieDetailsThumbNails extends StatelessWidget {
+  final String thumbnail;
+
+  const MovieDetailsThumbNails({Key? key, required this.thumbnail})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 250,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(thumbnail), fit: BoxFit.cover),
+              ),
+            ),
+            Icon(
+              Icons.play_circle_outline,
+              size: 100,
+              color: Colors.white,
+            )
+          ],
+        ),
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Color(0x00f5f5f5), Color(0xfff5f5f5)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter),
+          ),
+          height: 60,
+        )
+      ],
+    );
+  }
+}
+
+class MovieDetailsHeaderWithPoster extends StatelessWidget {
+  final Movie movie;
+
+  const MovieDetailsHeaderWithPoster({Key? key, required this.movie})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          MoviePoster(poster: movie.images[0].toString()),
+          SizedBox(
+            width: 16,
+          ),
+          Expanded(child: MovieDetailsHeader(movie: movie)),
+        ],
+      ),
+    );
+  }
+}
+
+class MovieDetailsHeader extends StatelessWidget {
+  final Movie movie;
+
+  const MovieDetailsHeader({Key? key, required this.movie}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("${movie.year}.${movie.genre}".toUpperCase()),
+      ],
+    );
+  }
+}
+
+class MoviePoster extends StatelessWidget {
+  final String poster;
+
+  const MoviePoster({Key? key, required this.poster}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var borderRadius = BorderRadius.all(Radius.circular(10));
+    return Card(
+        child: ClipRRect(
+      borderRadius: borderRadius,
+      child: Container(
+        width: MediaQuery.of(context).size.width / 0.4,
+        height: 160,
+        decoration: BoxDecoration(
+          image:
+              DecorationImage(image: NetworkImage(poster), fit: BoxFit.cover),
+        ),
+      ),
+    ));
+  }
+}
+
 class movieListViewDetails extends StatelessWidget {
   final String movieName;
   final Movie movie;
@@ -152,17 +265,10 @@ class movieListViewDetails extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(
-        child: Container(
-          child: ElevatedButton.icon(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(null),
-              label: Text(
-                "${this.movie.director}",
-              )),
-        ),
+      body: ListView(
+        children: [
+          MovieDetailsThumbNails(thumbnail: movie.images[0]),
+        ],
       ),
     );
   }
