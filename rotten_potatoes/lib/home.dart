@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'model/movie.dart';
 
@@ -12,7 +14,7 @@ class MovieListView extends StatelessWidget {
         title: Text('Rotten Potatoes'),
         backgroundColor: Colors.black,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.blueGrey.shade900,
       body: ListView.builder(
           itemCount: movieList.length,
           itemBuilder: (BuildContext context, int index) {
@@ -77,7 +79,7 @@ Widget movieCard(Movie movie, BuildContext context) {
         width: MediaQuery.of(context).size.width,
         height: 120,
         child: Card(
-          color: Colors.black87,
+          color: Colors.black54,
           child: Padding(
             padding: const EdgeInsets.only(
                 top: 8.0, bottom: 8, left: 54.0, right: 8.0),
@@ -217,7 +219,142 @@ class MovieDetailsHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("${movie.year}.${movie.genre}".toUpperCase()),
+        Text(
+          "${movie.year}.${movie.genre}".toUpperCase(),
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            color: Colors.cyan,
+          ),
+        ),
+        Text(
+          "${movie.title}",
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 32,
+          ),
+        ),
+        Text.rich((TextSpan(
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w300,
+            ),
+            // ignore: prefer_const_literals_to_create_immutables
+            children: <TextSpan>[
+              TextSpan(text: movie.plot),
+              TextSpan(
+                  text: "More...",
+                  style: TextStyle(
+                    color: Colors.indigoAccent,
+                  ))
+            ])))
+      ],
+    );
+  }
+}
+
+class MovieDetailsCast extends StatelessWidget {
+  const MovieDetailsCast({required this.movie});
+  final Movie movie;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        children: <Widget>[
+          MovieField(field: 'Cast', value: movie.actor),
+          MovieField(field: 'Directors', value: movie.director),
+          MovieField(field: 'Awards', value: movie.awards)
+        ],
+      ),
+    );
+  }
+}
+
+class MovieField extends StatelessWidget {
+  const MovieField({required this.field, required this.value});
+  final String field;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          '$field : ',
+          style: TextStyle(
+              color: Colors.black38, fontSize: 12, fontWeight: FontWeight.w700),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: TextStyle(
+                color: Colors.black, fontSize: 12, fontWeight: FontWeight.w300),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class HorizontalLine extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      child: Container(
+        height: 0.5,
+        color: Colors.grey,
+      ),
+    );
+  }
+}
+
+class MovieDetailsExtraPosters extends StatelessWidget {
+  final List<String> posters;
+
+  const MovieDetailsExtraPosters({Key? key, required this.posters})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            'More Movie Posters'.toUpperCase(),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+        Container(
+          height: 170,
+          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
+          child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (BuildContext context, int index) => SizedBox(
+                    width: 8,
+                  ),
+              itemCount: posters.length,
+              itemBuilder: (BuildContext context, int index) => ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 3,
+                      height: 160,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(posters[index]),
+                              fit: BoxFit.cover)),
+                    ),
+                  )),
+        )
       ],
     );
   }
@@ -235,7 +372,7 @@ class MoviePoster extends StatelessWidget {
         child: ClipRRect(
       borderRadius: borderRadius,
       child: Container(
-        width: MediaQuery.of(context).size.width / 0.4,
+        width: MediaQuery.of(context).size.width / 4,
         height: 160,
         decoration: BoxDecoration(
           image:
@@ -268,6 +405,11 @@ class movieListViewDetails extends StatelessWidget {
       body: ListView(
         children: [
           MovieDetailsThumbNails(thumbnail: movie.images[0]),
+          MovieDetailsHeaderWithPoster(movie: movie),
+          HorizontalLine(),
+          MovieDetailsCast(movie: movie),
+          HorizontalLine(),
+          MovieDetailsExtraPosters(posters: movie.images),
         ],
       ),
     );
